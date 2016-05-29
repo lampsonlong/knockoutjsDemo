@@ -1,0 +1,55 @@
+<!DOCTYPE>
+<html>
+<head>
+    <script type="text/javascript" src="js/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" defer="defer">
+        // Here's my data model
+        var ViewModel = function (first, last) {
+            this.firstName = ko.observable(first);
+            this.lastName = ko.observable(last);
+
+            this.fullName = ko.pureComputed(function () {
+                // Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
+                return this.firstName() + " " + this.lastName();
+            }, this);
+
+            var availableMeals = [
+            { mealName: "aaa", price: 0 },
+            { mealName: "bbb", price: 1 },
+            { mealName: "ccc", price: 2 },
+            ];
+            
+            this.bbb = ko.observableArray(availableMeals);
+        };
+
+        
+
+        
+
+        $(document).ready(function () {
+            ko.applyBindings(new ViewModel("Planet", "Earth"));
+            //ko.applyBindings(test);
+        });
+    </script>
+</head>
+<body>
+    <div class='liveExample'>
+        <p>First name: <input data-bind='value: firstName' /></p>
+        <p>Last name: <input data-bind='value: lastName' /></p>
+        <h2>Hello, <span data-bind='text: fullName'> </span>!</h2>
+    </div>
+
+    <table>
+        <tbody data-bind="template: {name:'aaaaa', foreach: bbb}"></tbody>
+        
+    </table>
+
+    <script type="text/x-jquery-tmpl" id="aaaaa">
+        <tr>
+            <td><span data-bind="text: mealName"></span></td>
+            <td><span data-bind="text: price"></span></td>
+        </tr>
+    </script>
+</body>
+</html>
